@@ -1,0 +1,137 @@
+package date;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+/**
+ * 
+ * 获取对应月份的最后一天
+ *
+ */
+public class DateTime {
+	
+	public static Date getMonthEndTimeByDate(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.DATE, calendar.getActualMaximum(calendar.DATE));
+        return getApproachesEndTimeOfDay(calendar);
+    }
+
+    public static Date getApproachesEndTimeOfDay(Calendar calendar) {
+       calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 23, 59, 59);
+        return calendar.getTime();
+    }
+    
+    
+    public static long getDate(Date date,Date mydate){
+    	//SimpleDateFormat format2 = new java.text.SimpleDateFormat("yyyy-MM-dd");
+       // Date beginDate= format2.parse("2007-12-24");
+        //Date endDate= format2.parse("2007-12-25");
+        long day=(date.getTime()-mydate.getTime())/(24*60*60*1000);
+        System.out.println("相隔的天数="+day);
+        return day;
+    }
+public static void gettime(){
+    String str = "";
+    SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd 23:59:59");
+    Calendar lastDate = Calendar.getInstance();
+    lastDate.roll(Calendar.DATE, -1);//日期回滚7天
+    str=sdf.format(lastDate.getTime());
+    System.out.println(str);
+}
+    public static void getMon(){
+    	Date dNow = new Date();   //当前时间
+    	Date dBefore = new Date();
+    	Calendar calendar = Calendar.getInstance(); //得到日历
+    	calendar.setTime(dNow);//把当前时间赋给日历
+    	calendar.add(calendar.MONTH, -3);  //设置为前3月
+    	dBefore = calendar.getTime();   //得到前3月的时间
+    	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); //设置时间格式
+    	String defaultStartDate = sdf.format(dBefore);    //格式化前3月的时间
+    	String defaultEndDate = sdf.format(dNow); //格式化当前时间
+    	System.out.println("前3个月的时间是：" + defaultStartDate);
+    	System.out.println("生成的时间是：" + defaultEndDate);
+    }
+    
+    
+    
+    public static void main(String[] args) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date endDate;
+		try {
+			 gettime();
+			 getMon();
+			endDate = sdf.parse("2018-1-22");
+			System.out.println(sdf1.format(endDate));
+			System.out.println(sdf1.format(new Date()));
+			long day=getDate(new Date(),endDate);
+			System.out.println(day);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		
+    	System.out.println(sdf1.format(getMonthEndTimeByDate(new Date())));
+    	 Calendar c = Calendar.getInstance();
+    	 
+    	System.out.println(sdf1.format(getApproachesEndTimeOfDay(c)));
+    	System.out.println();
+	}
+    
+    public void some(Date date,Date mydate){
+    	SimpleDateFormat formats = new java.text.SimpleDateFormat("yyyy-MM-dd");
+    	Date today=new Date();
+        System.out.println("Today is "+formats.format(today));
+       // 取当月的第一天:
+        SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-01");
+       Date firstDay=new java.util.Date();
+        System.out.println("the month first day is "+formats.format(firstDay));
+       // 取当月的最后一天:
+        Calendar cal = Calendar.getInstance();
+        int maxDay=cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        java.text.Format formatter3=new java.text.SimpleDateFormat("yyyy-MM-"+maxDay);
+        System.out.println(formatter3.format(cal.getTime()));
+      //  求两个日期之间相隔的天数:
+        try {
+			Date beginDate= formats.parse("2007-12-24");
+			  Date endDate= formats.parse("2007-12-25");
+		      long day=(date.getTime()-mydate.getTime())/(24*60*60*1000);
+		        System.out.println("相隔的天数="+day);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+     
+  
+        //一年前的日期:
+        java.text.Format formatter=new java.text.SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date todayDate=new java.util.Date();
+        long beforeTime=(todayDate.getTime()/1000)-60*60*24*365;
+        todayDate.setTime(beforeTime*1000);
+        String beforeDate=formatter.format(todayDate);
+        System.out.println(beforeDate);
+       // 一年后的日期:
+        Date todayDate1=new java.util.Date();
+        long afterTime=(todayDate1.getTime()/1000)+60*60*24*365;
+        todayDate.setTime(afterTime*1000);
+        String afterDate=formatter.format(todayDate);
+        System.out.println(afterDate);
+        //求10小时后的时间
+        Calendar Cal=Calendar.getInstance();
+        Cal.setTime(date);
+        Cal.add(java.util.Calendar.HOUR_OF_DAY,10);
+        System.out.println("date:"+formats.format(Cal.getTime()));
+        //求10小时前的时间
+        Calendar Cals=Calendar.getInstance();
+        Cal.setTime(date);
+        Cal.add(java.util.Calendar.HOUR_OF_DAY,-10);
+        System.out.println("date:"+formats.format(Cals.getTime()));
+    }
+    
+    
+    
+}
